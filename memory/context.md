@@ -12,6 +12,7 @@ Target system: GitHub Enterprise Cloud (edition TBD - standard GHEC vs. EMU deci
 
 ## Change Log
 
+- **2026-07-08** - Fixed extractor to resolve orphaned policy repo IDs. Unresolvable IDs now labeled `(deleted repo)` instead of `?` - these are ADO policies pointing at repos that were removed but the policy config was not cleaned up. Recommend ADO-side cleanup pre-migration.
 - **2026-07-08** - Ran ADO inventory extractor against `https://dev.azure.com/zeb-ai`. Found **6 projects, 49 repos, 81 branch policies, 0 name collisions**. Original "100+ repos" estimate was high - actual is 49. Output: `Documents/ADO Inventory zeb-ai.xlsx` (Summary / Projects / Repo Inventory / Branch Policies / Collisions sheets). Projects: cloud-centralized-pipeline, ds-dataops, zeb-aws-clients-demo, zeb-databricks, zeb-spiral-poc, zeb-theteam-fka-wasserman-media-group-prod.
 - **2026-07-08** - Scope narrowed to Repos + Branch Policies + Access + Topics. Confirmed standard GHEC, retain repo names, use topics for hierarchy. OSS tooling scanned. Delivered `Documents/ADO to GitHub Migration Plan.xlsx` (6 sheets, 30-task 6-phase plan).
 - **2026-07-08** - Git initialized (`master` branch). `.gitignore` excludes creds file. Root commit `1fbe9ac` captures CLAUDE.md + memory bootstrap. Standing rule: commit after every response that changes files.

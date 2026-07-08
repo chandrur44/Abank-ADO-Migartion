@@ -224,19 +224,39 @@ def main():
         total_repos += len(repos)
 
         policies = fetch_policies(pid)
+        # id -> name for live repos in this project
+        repo_id_to_name = {r["id"]: r["name"] for r in repos}
         # Map repo_id -> [policy summaries]
         repo_policy_summaries: dict[str, list[str]] = defaultdict(list)
+
+        def resolve_repo_name(rid: str) -> str:
+            if rid in repo_id_to_name:
+                return repo_id_to_name[rid]
+            # Try to fetch directly - repo may still exist but be disabled / missing from list
+            try:
+                data = api_get(f"{ORG_URL}/{pid}/_apis/git/repositories/{rid}")
+                name = data.get("name")
+                if name:
+                    repo_id_to_name[rid] = name
+                    return name
+            except requests.HTTPError:
+                pass
+            return "(deleted repo)"
+
         for pol in policies:
             rids = scope_repo_ids(pol)
             summary = f"[{scope_branch(pol)}] {summarize_policy(pol)}" + (
                 " (blocking)" if pol.get("isBlocking") else ""
             )
-            targets = rids if rids else set(r["id"] for r in repos)  # project-wide
+            # Project-wide policy: apply only to live repos, don't invent a "(deleted repo)" target
+            targets = rids if rids else set(repo_id_to_name.keys())
             for rid in targets:
-                repo_policy_summaries[rid].append(summary)
-            # Also record as a policy row
+                # Only attach to live-repo policy summary map
+                if rid in repo_id_to_name:
+                    repo_policy_summaries[rid].append(summary)
+            # Record every scope entry, including deleted repos, in Branch Policies sheet
             for rid in targets:
-                rname = next((r["name"] for r in repos if r["id"] == rid), "?")
+                rname = resolve_repo_name(rid)
                 policy_rows.append((
                     len(policy_rows) + 1,
                     pname,
