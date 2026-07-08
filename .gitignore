@@ -1,1 +1,5 @@
 Consist of Creds Dont Read.txt
+.env
+.env.*
+__pycache__/
+*.pyc

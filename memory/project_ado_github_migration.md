@@ -9,7 +9,7 @@ metadata:
 
 ## Fact / Decision
 
-Migrating from **Azure DevOps (cloud)** to **GitHub (cloud)**. Source footprint: **100+ repos in a single ADO org, spread across multiple ADO projects**. Confirmed 2026-07-08 by Sabreesh Sakthivel.
+Migrating from **Azure DevOps (cloud)** to **GitHub (cloud)**. Source org: `https://dev.azure.com/zeb-ai`. Actual footprint (extracted 2026-07-08): **6 projects, 49 repos, 81 branch policies, 0 name collisions**. Original stakeholder estimate of "100+ repos" was high. Projects: cloud-centralized-pipeline, ds-dataops, zeb-aws-clients-demo, zeb-databricks, zeb-spiral-poc, zeb-theteam-fka-wasserman-media-group-prod. Confirmed 2026-07-08 by Sabreesh Sakthivel.
 
 **Why:** Client directive to consolidate on GitHub. Scale (100+ repos, multi-project) means wave-based cutover, not big-bang.
 
