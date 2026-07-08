@@ -21,6 +21,25 @@ Migrating from **Azure DevOps (cloud)** to **GitHub (cloud)**. Source footprint:
 
 Tooling per component: **GitHub Enterprise Importer (GEI)** for repos/PRs/wiki/work-items; **GitHub Actions Importer** for YAML pipelines (60-80% auto-convert); manual rebuild for Classic pipelines, service connections (recommend OIDC federation), variable groups, permissions, webhooks.
 
+## Scope Narrowed (2026-07-08)
+
+Active phase focused on: **Repos + Branch Policies + Access + Topics-for-hierarchy**. Pipelines / artifacts / work items / wikis deferred.
+
+**Decisions confirmed:**
+- GHEC edition: **Standard** (not EMU).
+- Repo naming: **retain original ADO repo names**; use **GitHub Topics** to preserve ADO project hierarchy.
+- Collision policy: when the same repo name exists in multiple ADO projects, suffix one (e.g. `shared-lib-projectb`). Discovery must flag every collision before migration.
+- Every repo must have **exactly one `project-*` topic** - that is the hierarchy replacement in a flat GitHub org.
+
+**Toolchain (all free / OSS):**
+- **GitHub Enterprise Importer** (`gh ado2gh`) - repos/history/PRs
+- **`gh` CLI + `gh api`** - topics, teams, permissions, Rulesets
+- **ADO REST API + Python** - discovery inventory export
+- **ghorg** - pre-migration bulk backup
+- Optional: git-filter-repo / BFG (only if pre-migration history cleanup needed)
+
+**Deliverable:** `Documents/ADO to GitHub Migration Plan.xlsx` with sheets: Summary, Migration Plan (30 tasks over 6 phases), Tooling, Repo Inventory (template), Topic Taxonomy, Access Model.
+
 ## Open Decisions / Gaps
 
 - **GHEC edition**: standard GHEC vs. **Enterprise Managed Users (EMU)**. EMU gives IdP-managed identities but blocks OSS contribution from same identity. Pick early.
