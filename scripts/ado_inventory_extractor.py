@@ -37,35 +37,8 @@ DOCUMENTS_DIR = PROJECT_ROOT / "Documents"
 DOCUMENTS_DIR.mkdir(exist_ok=True)
 
 load_dotenv(PROJECT_ROOT / ".env")
-
-
-def _read_env_file(path: Path) -> dict[str, str]:
-    """Fallback parser that tolerates hyphens in env var names (e.g. ADO-PAT)."""
-    out: dict[str, str] = {}
-    if not path.exists():
-        return out
-    for line in path.read_text(encoding="utf-8-sig").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        k, _, v = line.partition("=")
-        out[k.strip()] = v.strip().strip('"').strip("'")
-    return out
-
-
-_raw = _read_env_file(PROJECT_ROOT / ".env")
-ORG_URL = (
-    os.environ.get("ADO_ORG_URL")
-    or _raw.get("ADO_ORG_URL")
-    or _raw.get("ADO-ORG-URL")
-    or "https://dev.azure.com/zeb-ai"
-).rstrip("/")
-PAT = (
-    os.environ.get("ADO_PAT")
-    or _raw.get("ADO_PAT")
-    or _raw.get("ADO-PAT")
-    or ""
-)
+ORG_URL = os.environ.get("ADO_ORG_URL", "").rstrip("/")
+PAT = os.environ.get("ADO_PAT", "")
 
 if not ORG_URL or not PAT:
     print("ERROR: ADO_ORG_URL and ADO_PAT must be set in .env", file=sys.stderr)
