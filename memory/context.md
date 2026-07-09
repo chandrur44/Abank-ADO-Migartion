@@ -12,6 +12,8 @@ Target system: GitHub Enterprise Cloud (edition TBD - standard GHEC vs. EMU deci
 
 ## Change Log
 
+- **2026-07-09** - **Major scope shift**: primary migration source is Abank on-prem ADO Server at `http://abdevopsdev/DefaultCollection/...`, NOT the cloud `dev.azure.com/zeb-ai`. Server is fully firewalled, no outbound to github.com. All extraction/migration scripts must run on the Abank VDI (no admin, embeddable Python). Zeb-ai work is retconned as warm-up/tooling rehearsal. Preferred path: GEI-for-ADO-Server (needs firewall exception from server or jump host to `api.github.com`). Fallback: `git mirror` (loses PRs/wiki). See [[project-abdevopsdev-server]].
+
 - **2026-07-08** - Remote configured: `https://github.com/chandrur44/Abank-ADO-Migartion.git`. Branch renamed `master` -> `main`. All existing commits pushed. Standing rule: push after every local commit. `.env` verified gitignored (not pushed).
 - **2026-07-08** - Live check via `scripts/check_wikis_and_tags.py`: **0 wikis across all 6 projects**, **1 tag total** (in `cloud-centralized-pipeline/cloud-centralized-pipeline`). Wikis dropped from migration scope; tags negligible but still preserved automatically by GEI.
 - **2026-07-08** - Fixed extractor to resolve orphaned policy repo IDs. Unresolvable IDs now labeled `(deleted repo)` instead of `?` - these are ADO policies pointing at repos that were removed but the policy config was not cleaned up. Recommend ADO-side cleanup pre-migration.
