@@ -51,7 +51,7 @@ AUTH_HEADER = "Basic " + base64.b64encode(f":{PAT}".encode()).decode()
 SESSION = requests.Session()
 SESSION.headers.update({"Authorization": AUTH_HEADER, "Accept": "application/json"})
 
-API_VERSION = "7.1"
+API_VERSION = os.environ.get("ADO_API_VERSION", "5.1")
 
 
 def api_get(url: str, params: dict | None = None) -> dict[str, Any]:
