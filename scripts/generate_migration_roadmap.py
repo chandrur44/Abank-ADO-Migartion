@@ -321,49 +321,7 @@ write_sheet(
     phase_col_idx=1,
 )
 
-# ── Sheet 3: Batch Plan ───────────────────────
-ws_batch = wb.create_sheet("Batch Plan")
-write_sheet(
-    ws_batch,
-    ["Batch", "Phase", "Repo Range", "Contents", "Risk", "Start Date", "End Date"],
-    [
-        ("Pilot",    "Phase 2", "2 repos",       "1 ScriptRefactoring and 1 stale single-repo",  "Validation only",  d(14), d(17)),
-        ("Batch 1",  "Phase 3", "Repos 1-10",    "Stale single-repo projects over 2 years idle", "Low",              d(17), d(18)),
-        ("Batch 2",  "Phase 3", "Repos 11-20",   "Single-repo projects 1 to 2 years idle",       "Low",              d(18), d(19)),
-        ("Batch 3",  "Phase 3", "Repos 21-30",   "SSIS ETL (5) and single-repo projects",        "Low to medium",    d(19), d(20)),
-        ("Batch 4",  "Phase 3", "Repos 31-40",   "Non Binary (2) and active single-repo",        "Medium",           d(20), d(21)),
-        ("Batch 5",  "Phase 3", "Repos 41-50",   "Remaining active single-repo projects",        "Medium",           d(21), d(22)),
-        ("Batch 6",  "Phase 4", "Repos 51-60",   "ScriptRefactoring first 10",                   "Medium",           d(24), d(25)),
-        ("Batch 7",  "Phase 4", "Repos 61-70",   "ScriptRefactoring next 10",                    "Medium",           d(25), d(26)),
-        ("Batch 8",  "Phase 4", "Repos 71-80",   "ScriptRefactoring next 10",                    "Medium",           d(26), d(27)),
-        ("Batch 9",  "Phase 4", "Repos 81-90",   "ScriptRefactoring next 10",                    "Medium",           d(27), d(28)),
-        ("Batch 10", "Phase 4", "Repos 91-106",  "ScriptRefactoring final 16",                   "SR complete",      d(28), d(31)),
-        ("Batch 11", "Phase 5", "Repos 107-116", "AB AppDev first 10 (oldest)",                  "Higher",           d(31), d(32)),
-        ("Batch 12", "Phase 5", "Repos 117-126", "AB AppDev next 10",                            "Higher",           d(32), d(33)),
-        ("Batch 13", "Phase 5", "Repos 127-136", "AB AppDev next 10",                            "Higher",           d(33), d(34)),
-        ("Batch 14", "Phase 5", "Repos 137-146", "AB AppDev next 10",                            "Higher",           d(34), d(35)),
-        ("Batch 15", "Phase 5", "Repos 147-156", "AB AppDev next 10",                            "Higher",           d(35), d(36)),
-        ("Batch 16", "Phase 5", "Repos 157-166", "AB AppDev next 10",                            "Higher",           d(36), d(37)),
-        ("Batch 17", "Phase 5", "Repos 167-176", "AB AppDev next 10",                            "Higher",           d(37), d(38)),
-        ("Batch 18", "Phase 5", "Repos 177-186", "AB AppDev next 10",                            "Higher",           d(38), d(39)),
-        ("Batch 19", "Phase 5", "Repos 187-196", "AB AppDev next 10",                            "Higher",           d(39), d(40)),
-        ("Batch 20", "Phase 5", "Repos 197-206", "AB AppDev next 10",                            "Higher",           d(40), d(41)),
-        ("Batch 21", "Phase 5", "Repos 207-216", "AB AppDev next 10",                            "Higher",           d(41), d(42)),
-        ("Batch 22", "Phase 5", "Repos 217-226", "AB AppDev next 10",                            "Higher",           d(42), d(43)),
-        ("Batch 23", "Phase 5", "Repos 227-236", "AB AppDev next 10",                            "Higher",           d(43), d(44)),
-        ("Batch 24", "Phase 5", "Repos 237-246", "AB AppDev next 10",                            "Higher",           d(43), d(44)),
-        ("Batch 25", "Phase 5", "Repos 247-256", "AB AppDev next 10",                            "Higher",           d(44), d(45)),
-        ("Batch 26", "Phase 5", "Repos 257-266", "AB AppDev next 10",                            "Higher",           d(44), d(45)),
-        ("Batch 27", "Phase 5", "Repos 267-276", "AB AppDev next 10",                            "Higher",           d(45), d(46)),
-        ("Batch 28", "Phase 5", "Repos 277-286", "AB AppDev next 10",                            "Higher",           d(45), d(46)),
-        ("Batch 29", "Phase 5", "Repos 287-296", "AB AppDev next 10",                            "Higher",           d(46), d(47)),
-        ("Batch 30", "Phase 5", "Repos 297-306", "AB AppDev next 10",                            "Higher",           d(46), d(47)),
-        ("Batch 31", "Phase 5", "Repos 307-309", "AB AppDev final 3",                            "All 309 migrated", d(47), d(47)),
-    ],
-    phase_col_idx=1,
-)
-
-# ── Sheet 4: Decisions Needed ──────────────────
+# ── Sheet 3: Decisions Needed ──────────────────
 ws_dec = wb.create_sheet("Decisions Needed")
 write_sheet(
     ws_dec,
@@ -447,27 +405,6 @@ write_sheet(
          "Engineer", "Pilot orchestration"),
     ],
     phase_col_idx=1,
-)
-
-# ── Sheet 6: Per-Batch Cutover Process ────────
-ws_proc = wb.create_sheet("Per-Batch Process")
-write_sheet(
-    ws_proc,
-    ["Step", "When", "Action", "Detail"],
-    [
-        (1,  "24h before", "Freeze Notice",          "Notify repo owners via Teams or email that ADO push will be disabled in 24 hours. Share the GitHub target URL."),
-        (2,  "1h before",  "Final Sync Check",       "Run git fetch on the ADO repos in this batch to capture any last-minute commits before the freeze."),
-        (3,  "At cutover", "Freeze ADO",             "Disable push on the ADO repos via Repos Settings. Log the exact freeze time."),
-        (4,  "At cutover", "Mirror Clone",           "Run git_mirror_migrate.py in dry-run mode first. Review the output, then run live. Log any failures."),
-        (5,  "At cutover", "Apply Topics and Teams", "Run apply_topics_teams.py in dry-run mode. Review, then run live."),
-        (6,  "At cutover", "Apply Rulesets",         "Run apply_rulesets.py in dry-run mode. Review, then run live."),
-        (7,  "At cutover", "Apply CI/CD",            "Run apply_cicd.py on repos in this batch that are flagged for CI/CD. Confirm a pipeline job is queued on the runner."),
-        (8,  "1h after",   "Verify",                 "Run post_migration_verify.py. All repos in the batch must pass before the batch is marked complete."),
-        (9,  "1h after",   "Owner Validation",       "Repo owner clones from GitHub, confirms branches and code look correct, and signs off."),
-        (10, "2h after",   "Archive ADO",            "Set the ADO repos to read-only. Update Status to Migrated in the Repo Inventory."),
-        (11, "2h after",   "Update Roadmap",         "Mark the batch as Completed in this workbook. Commit and push to GitHub."),
-        (12, "After",      "Consumer Redirect",      "Raise pull requests to update any submodule URLs, CI clone URLs, or README badges that still point to ADO."),
-    ],
 )
 
 wb.save(OUTPUT)
