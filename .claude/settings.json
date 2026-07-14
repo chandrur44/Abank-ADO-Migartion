@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Read",
+      "Edit",
+      "Write",
+      "WebFetch",
+      "Grep",
+      "Glob",
+      "LS",
+      "MultiEdit",
+      "NotebookRead",
+      "NotebookEdit",
+      "TodoRead",
+      "TodoWrite",
+      "WebSearch",
+      "Bash(git add *)",
+      "Bash(git -c user.email=chandru@local -c user.name=Chandru commit -m 'chore\\(memory\\): catch up all unlogged context from 2026-07-09 *)",
+      "Bash(git push *)"
+    ]
+  }
+}
