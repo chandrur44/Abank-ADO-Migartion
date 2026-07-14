@@ -13,9 +13,9 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DOCUMENTS_DIR = PROJECT_ROOT / "Documents"
-DOCUMENTS_DIR.mkdir(exist_ok=True)
-OUTPUT = DOCUMENTS_DIR / "ADO to GitHub Migration Roadmap Abank.xlsx"
+ABANK_DOC_DIR = PROJECT_ROOT / "Abank Document"
+ABANK_DOC_DIR.mkdir(exist_ok=True)
+OUTPUT = ABANK_DOC_DIR / "ADO to GitHub Migration Roadmap Abank.xlsx"
 
 NAVY = "002060"
 WHITE = "FFFFFF"
