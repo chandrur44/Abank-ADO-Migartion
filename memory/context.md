@@ -11,6 +11,7 @@ Target system: GitHub Enterprise Cloud (standard GHEC confirmed 2026-07-08).
 
 ## Change Log
 
+- **2026-07-09** - Delivered `Documents/ADO to GitHub Migration Roadmap Abank.xlsx` (6 sheets: Summary, Roadmap 50 tasks 8 phases, Batch Plan 33 batches, Decisions Needed 7 items, Scripts to Develop 5 scripts, Per-Batch Process 11 steps). Planned start 14 Jul 2026, end ~22 weeks. Script `scripts/generate_migration_roadmap.py` added.
 - **2026-07-09** - Analyzed Abank inventory workbook (`Abank Document/ADO Inventory DefaultCollection.xlsx`): 24 projects, 327 active repos (0 disabled), 1,917 MB, only 2 repos have branch policies (325 unprotected), 3 name collisions (ACH BAI File Generator / BAM / DW_STAGING_LOAD_LEGACY), 18 empty repos, 309 repos on `master`. Key decisions pending: master->main rename policy, empty repo disposition, collision rename sign-off. See [[project-abdevopsdev-server]].
 - **2026-07-09** - GEI confirmed NOT supported for on-prem ADO Server. Official GitHub docs only list ADO Services (cloud), Bitbucket Server, GitHub.com, GHES as supported sources. Alternate paths: (1) ADO Server -> ADO Services -> GEI (two hops, extra MS licensing), (2) git mirror from VDI (loses PRs), (3) GitHub Professional Services. Documented for stakeholder communication.
 - **2026-07-09** - ADO Server API version confirmed as 5.1 max (server error on 6.0: "latest version is 5.1"). Extractor patched to default API_VERSION=5.1, configurable via ADO_API_VERSION env var. Commit 8ad6d31.
