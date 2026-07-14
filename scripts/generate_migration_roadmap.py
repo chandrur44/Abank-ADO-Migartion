@@ -111,214 +111,206 @@ roadmap = [
      "Align all stakeholders on scope, migration approach, and timeline. Decisions needed: master to main rename, 18 empty repos skip, 3 repo name conflicts, and PR history acceptance.",
      "Project Lead", d(0), d(3), "In Progress", "Scope sign-off and decision log"),
 
-    (2,  "Phase 0", "GitHub Org Setup",
-     "Provision the GitHub Enterprise Cloud org. Configure Entra SSO and SCIM. Set org-wide defaults: main as default branch, secret scanning enabled, push protection on.",
-     "Platform Team", d(0), d(5), "Not Started", "GitHub org live with SSO working"),
-
-    (3,  "Phase 0", "VDI Tooling Setup",
-     "Install embeddable Python on VDI, set up dependencies, clone the migration repo, and configure the .env file with credentials.",
-     "Engineer", d(0), d(2), "Done", "All scripts runnable on VDI"),
-
-    (4,  "Phase 0", "Inventory Finalization",
+    (2,  "Phase 0", "Inventory Finalization",
      "Confirm the 309 active repos, agree on batch groupings, resolve the 3 collision renames, and confirm disposition of the 18 empty repos.",
      "Engineer and Lead", d(0), d(5), "Not Started", "Finalized Repo Inventory with batch assignments"),
 
     # Phase 1 - Script Development
-    (5,  "Phase 1", "Script - Mirror Migration",
+    (3,  "Phase 1", "Script - Mirror Migration",
      "Build git_mirror_migrate.py to clone each repo from ADO and push it to GitHub. Includes dry-run mode, retry on failure, resume capability, and the master to main rename option.",
      "Engineer", d(7), d(11), "Not Started", "git_mirror_migrate.py ready"),
 
-    (6,  "Phase 1", "Script - Topics and Teams",
+    (4,  "Phase 1", "Script - Topics and Teams",
      "Build apply_topics_teams.py to set GitHub topics and team permissions for each repo based on the workbook. Dry-run and idempotent.",
      "Engineer", d(7), d(11), "Not Started", "apply_topics_teams.py ready"),
 
-    (7,  "Phase 1", "Script - Branch Rulesets",
+    (5,  "Phase 1", "Script - Branch Rulesets",
      "Build apply_rulesets.py with 3 to 4 Ruleset JSON templates covering default protection, require review, file size, and comment required. Rulesets are attached by topic.",
      "Engineer", d(7), d(11), "Not Started", "apply_rulesets.py and JSON templates ready"),
 
-    (8,  "Phase 1", "Script - Post-Migration Verify",
+    (6,  "Phase 1", "Script - Post-Migration Verify",
      "Build post_migration_verify.py to run a pass or fail check on each repo covering branch count, default branch, topics, team access, and Ruleset attachment.",
      "Engineer", d(9), d(12), "Not Started", "post_migration_verify.py ready"),
 
-    (9,  "Phase 1", "Script - CI/CD Template Applicator",
+    (7,  "Phase 1", "Script - CI/CD Template Applicator",
      "Develop the standard GitHub Actions workflow YAML for identified repos. Build apply_cicd.py to push this template to each repo automatically.",
      "Engineer", d(9), d(12), "Not Started", "cicd_template.yml and apply_cicd.py ready"),
 
-    (10, "Phase 1", "Self-Hosted Runner Setup",
+    (8, "Phase 1", "Self-Hosted Runner Setup",
      "Register an org-level self-hosted runner on Abank infrastructure. Validate that the runner comes online in the GitHub org and successfully picks up workflow jobs.",
      "Engineer and Infra", d(7), d(12), "Not Started", "Runner registered and online in GitHub org"),
 
-    (11, "Phase 1", "Script Testing on Sandbox",
+    (9, "Phase 1", "Script Testing on Sandbox",
      "Test all scripts against the zeb-ai sandbox org. Validate dry-run, retry, resume, and error handling for each script before using on Abank repos.",
      "Engineer", d(12), d(14), "Not Started", "All scripts passing on sandbox"),
 
     # Phase 2 - Pilot
-    (12, "Phase 2", "Pilot - 2 Repos",
+    (10, "Phase 2", "Pilot - 2 Repos",
      "Run the full end-to-end sequence on 2 repos: one from ScriptRefactoring and one stale single-repo project. Steps are mirror, topics, Ruleset, CI/CD, and verify. Repo owner validates the result.",
      "Engineer", d(14), d(15), "Not Started", "2 repos on GitHub, verify passing"),
 
-    (13, "Phase 2", "Pilot Review and Fix",
+    (11, "Phase 2", "Pilot Review and Fix",
      "Review what gaps were found in the pilot. Fix scripts and update the runbook. Get written sign-off to proceed to batch migration.",
      "Engineer", d(15), d(17), "Not Started", "Updated scripts, runbook, and sign-off"),
 
     # Phase 3 - Stale Singles
-    (14, "Phase 3", "Batch 1 - Repos 1 to 10",
+    (12, "Phase 3", "Batch 1 - Repos 1 to 10",
      "Stale single-repo projects last active more than 2 years ago. Send 24 hours freeze notice, mirror, apply topics and Ruleset, verify, then archive in ADO.",
      "Engineer", d(17), d(18), "Not Started", "10 repos on GitHub, ADO archived"),
 
-    (15, "Phase 3", "Batch 2 - Repos 11 to 20",
+    (13, "Phase 3", "Batch 2 - Repos 11 to 20",
      "Single-repo projects last active 1 to 2 years ago. Same freeze, mirror, topics, Ruleset, verify, archive process.",
      "Engineer", d(18), d(19), "Not Started", "10 repos on GitHub, ADO archived"),
 
-    (16, "Phase 3", "Batch 3 - Repos 21 to 30",
+    (14, "Phase 3", "Batch 3 - Repos 21 to 30",
      "SSIS ETL repos (5) and remaining single-repo projects. Same process as Batch 1.",
      "Engineer", d(19), d(20), "Not Started", "10 repos on GitHub, ADO archived"),
 
-    (17, "Phase 3", "Batch 4 - Repos 31 to 40",
+    (15, "Phase 3", "Batch 4 - Repos 31 to 40",
      "Non Binary repos (2) and active single-repo projects. Send 24 hours freeze notice before starting.",
      "Engineer", d(20), d(21), "Not Started", "10 repos on GitHub, ADO archived"),
 
-    (18, "Phase 3", "Batch 5 - Repos 41 to 50",
+    (16, "Phase 3", "Batch 5 - Repos 41 to 50",
      "Remaining active single-repo projects. Send 24 hours freeze notice before starting.",
      "Engineer", d(21), d(22), "Not Started", "10 repos on GitHub, ADO archived"),
 
     # Phase 4 - ScriptRefactoring
-    (19, "Phase 4", "Batch 6 - Repos 51 to 60",
+    (17, "Phase 4", "Batch 6 - Repos 51 to 60",
      "ScriptRefactoring project, first 10 repos. Send 24 hours freeze notice before starting.",
      "Engineer", d(24), d(25), "Not Started", "10 SR repos on GitHub"),
 
-    (20, "Phase 4", "Batch 7 - Repos 61 to 70",
+    (18, "Phase 4", "Batch 7 - Repos 61 to 70",
      "ScriptRefactoring project, next 10 repos.",
      "Engineer", d(25), d(26), "Not Started", "10 SR repos on GitHub"),
 
-    (21, "Phase 4", "Batch 8 - Repos 71 to 80",
+    (19, "Phase 4", "Batch 8 - Repos 71 to 80",
      "ScriptRefactoring project, next 10 repos.",
      "Engineer", d(26), d(27), "Not Started", "10 SR repos on GitHub"),
 
-    (22, "Phase 4", "Batch 9 - Repos 81 to 90",
+    (20, "Phase 4", "Batch 9 - Repos 81 to 90",
      "ScriptRefactoring project, next 10 repos.",
      "Engineer", d(27), d(28), "Not Started", "10 SR repos on GitHub"),
 
-    (23, "Phase 4", "Batch 10 - Repos 91 to 106",
+    (21, "Phase 4", "Batch 10 - Repos 91 to 106",
      "ScriptRefactoring project, final 16 repos. All ScriptRefactoring repos now on GitHub.",
      "Engineer", d(28), d(31), "Not Started", "All 56 SR repos on GitHub"),
 
     # Phase 5 - AB AppDev
-    (24, "Phase 5", "Batch 11 - Repos 107 to 116",
+    (22, "Phase 5", "Batch 11 - Repos 107 to 116",
      "AB AppDev project begins. First 10 repos ordered by oldest last commit. Send 24 hours freeze notice before starting.",
      "Engineer", d(31), d(32), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (25, "Phase 5", "Batch 12 - Repos 117 to 126",
+    (23, "Phase 5", "Batch 12 - Repos 117 to 126",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(32), d(33), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (26, "Phase 5", "Batch 13 - Repos 127 to 136",
+    (24, "Phase 5", "Batch 13 - Repos 127 to 136",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(33), d(34), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (27, "Phase 5", "Batch 14 - Repos 137 to 146",
+    (25, "Phase 5", "Batch 14 - Repos 137 to 146",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(34), d(35), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (28, "Phase 5", "Batch 15 - Repos 147 to 156",
+    (26, "Phase 5", "Batch 15 - Repos 147 to 156",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(35), d(36), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (29, "Phase 5", "Batch 16 - Repos 157 to 166",
+    (27, "Phase 5", "Batch 16 - Repos 157 to 166",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(36), d(37), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (30, "Phase 5", "Batch 17 - Repos 167 to 176",
+    (28, "Phase 5", "Batch 17 - Repos 167 to 176",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(37), d(38), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (31, "Phase 5", "Batch 18 - Repos 177 to 186",
+    (29, "Phase 5", "Batch 18 - Repos 177 to 186",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(38), d(39), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (32, "Phase 5", "Batch 19 - Repos 187 to 196",
+    (30, "Phase 5", "Batch 19 - Repos 187 to 196",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(39), d(40), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (33, "Phase 5", "Batch 20 - Repos 197 to 206",
+    (31, "Phase 5", "Batch 20 - Repos 197 to 206",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(40), d(41), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (34, "Phase 5", "Batch 21 - Repos 207 to 216",
+    (32, "Phase 5", "Batch 21 - Repos 207 to 216",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(41), d(42), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (35, "Phase 5", "Batch 22 - Repos 217 to 226",
+    (33, "Phase 5", "Batch 22 - Repos 217 to 226",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(42), d(43), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (36, "Phase 5", "Batch 23 - Repos 227 to 236",
+    (34, "Phase 5", "Batch 23 - Repos 227 to 236",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(43), d(44), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (37, "Phase 5", "Batch 24 - Repos 237 to 246",
+    (35, "Phase 5", "Batch 24 - Repos 237 to 246",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(43), d(44), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (38, "Phase 5", "Batch 25 - Repos 247 to 256",
+    (36, "Phase 5", "Batch 25 - Repos 247 to 256",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(44), d(45), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (39, "Phase 5", "Batch 26 - Repos 257 to 266",
+    (37, "Phase 5", "Batch 26 - Repos 257 to 266",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(44), d(45), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (40, "Phase 5", "Batch 27 - Repos 267 to 276",
+    (38, "Phase 5", "Batch 27 - Repos 267 to 276",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(45), d(46), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (41, "Phase 5", "Batch 28 - Repos 277 to 286",
+    (39, "Phase 5", "Batch 28 - Repos 277 to 286",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(45), d(46), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (42, "Phase 5", "Batch 29 - Repos 287 to 296",
+    (40, "Phase 5", "Batch 29 - Repos 287 to 296",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(46), d(47), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (43, "Phase 5", "Batch 30 - Repos 297 to 306",
+    (41, "Phase 5", "Batch 30 - Repos 297 to 306",
      "AB AppDev project, next 10 repos.",
      "Engineer", d(46), d(47), "Not Started", "10 AB AppDev repos on GitHub"),
 
-    (44, "Phase 5", "Batch 31 - Repos 307 to 309",
+    (42, "Phase 5", "Batch 31 - Repos 307 to 309",
      "AB AppDev project, final 3 repos. All 309 active repos are now on GitHub.",
      "Engineer", d(47), d(47), "Not Started", "All AB AppDev repos on GitHub"),
 
     # Phase 6 - CI/CD and Audit
-    (45, "Phase 6", "CI/CD Repo Identification",
+    (43, "Phase 6", "CI/CD Repo Identification",
      "Identify which repos need a CI/CD pipeline. Document the pipeline type and trigger pattern for each repo before rollout begins.",
      "Engineer and Lead", d(44), d(46), "Not Started", "CI/CD candidate list approved"),
 
-    (46, "Phase 6", "CI/CD Pipeline Rollout",
+    (44, "Phase 6", "CI/CD Pipeline Rollout",
      "Apply the standard GitHub Actions workflow YAML to all identified repos using apply_cicd.py. Validate that each pipeline runs successfully on the self-hosted runner.",
      "Engineer", d(44), d(47), "Not Started", "Pipelines active, runner jobs passing"),
 
-    (47, "Phase 6", "Full Org Audit",
+    (45, "Phase 6", "Full Org Audit",
      "Run post_migration_verify.py across all 309 repos. Every repo must have a project topic, correct default branch, a Ruleset applied, and team access confirmed.",
      "Engineer", d(44), d(46), "Not Started", "Audit report with all repos passing"),
 
-    (48, "Phase 6", "Security Review",
+    (46, "Phase 6", "Security Review",
      "Confirm no repos are accidentally public, secret scanning is enabled org-wide, push protection is on, and no hardcoded secrets are flagged.",
      "Security", d(44), d(46), "Not Started", "Security sign-off"),
 
-    (49, "Phase 6", "Consumer URL Updates",
+    (47, "Phase 6", "Consumer URL Updates",
      "Update any submodule references, CI clone URLs, and README badges that still point to ADO. Raise pull requests in each affected repo.",
      "Team Leads", d(44), d(47), "Not Started", "All consumers updated to GitHub URLs"),
 
     # Phase 7 - Handover
-    (50, "Phase 7", "ADO Server Archive",
+    (48, "Phase 7", "ADO Server Archive",
      "Set all ADO repos to read-only. Send communications to all teams: ADO is now archive-only and will be retained for 90 days.",
      "Platform Team", d(47), d(48), "Not Started", "ADO read-only, comms sent"),
 
-    (51, "Phase 7", "Runbook Handover",
+    (49, "Phase 7", "Runbook Handover",
      "Hand over the runbook to the platform team covering: how to add a new repo, apply topics, request access, change a Ruleset, and manage the runner. Includes a 1-hour walkthrough session.",
      "Engineer", d(47), d(48), "Not Started", "Runbook delivered and session completed"),
 
-    (52, "Phase 7", "ADO Decommission Planning",
+    (50, "Phase 7", "ADO Decommission Planning",
      "Plan the ADO Server decommission for 90 days after archive. Confirm the data retention policy and schedule with the Abank infrastructure team.",
      "Abank Infra", d(48), d(48), "Not Started", "Decommission plan signed off"),
 ]
@@ -446,11 +438,11 @@ write_sheet(
          "Runs a pass or fail check on each repo: branch count, default branch, topics, team access, and Ruleset.",
          "Engineer", "Quality gate per batch"),
 
-        (5, "Phase 1", "apply_cicd.py",
+        (3, "Phase 1", "apply_cicd.py",
          "Applies the standard GitHub Actions workflow YAML to identified repos and confirms the pipeline triggers on the self-hosted runner.",
          "Engineer", "CI/CD rollout"),
 
-        (6, "Phase 2", "pilot_runner.sh",
+        (4, "Phase 2", "pilot_runner.sh",
          "Orchestrates the full 5-script sequence on the 2 pilot repos. Captures logs and outputs a summary report.",
          "Engineer", "Pilot orchestration"),
     ],
