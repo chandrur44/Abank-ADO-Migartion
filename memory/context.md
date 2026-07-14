@@ -2,16 +2,18 @@
 
 ## Summary
 
-Abank engagement. Primary active workstream: **migration from Azure DevOps (cloud) to GitHub (cloud)** across an ADO org with 100+ repos spread over multiple projects. Two adjacent workstreams tied to the same migration:
+Abank engagement. Primary workstream: **migration from on-prem Azure DevOps Server (`http://abdevopsdev/DefaultCollection`) to GitHub Enterprise Cloud (standard, not EMU)**. Server is fully firewalled (no outbound to internet); all scripts run from Abank VDI using embeddable Python (no admin). GEI is confirmed NOT supported for on-prem ADO Server — migration path is `git push --mirror` from VDI jump host. Two adjacent workstreams: (1) branching policy + CI/CD design for GitHub target, (2) Databricks UAT branch investigation.
 
-1. Draft the **current branching policy** and design **automated CI/CD with validation checks** on the GitHub side.
-2. Investigate the **Databricks team's request for a new UAT branch** — capture their use case and document the anti-patterns they DO NOT follow that are causing the current mess.
+**Actual inventory (extracted 2026-07-09):** 24 projects, 327 repos (all active, 0 disabled), 1,917 MB total size, 6 branch policy rows (only 2 repos protected), 3 name collisions, 18 empty repos (no commits), 309 repos on `master` branch.
 
-Source system: Azure DevOps (confirmed by Sabreesh Sakthivel, 2026-07-08).
-Target system: GitHub Enterprise Cloud (edition TBD - standard GHEC vs. EMU decision pending).
+Source system: on-prem ADO Server `abdevopsdev`, API max version 5.1 (Server 2019 era).
+Target system: GitHub Enterprise Cloud (standard GHEC confirmed 2026-07-08).
 
 ## Change Log
 
+- **2026-07-09** - Analyzed Abank inventory workbook (`Abank Document/ADO Inventory DefaultCollection.xlsx`): 24 projects, 327 active repos (0 disabled), 1,917 MB, only 2 repos have branch policies (325 unprotected), 3 name collisions (ACH BAI File Generator / BAM / DW_STAGING_LOAD_LEGACY), 18 empty repos, 309 repos on `master`. Key decisions pending: master->main rename policy, empty repo disposition, collision rename sign-off. See [[project-abdevopsdev-server]].
+- **2026-07-09** - GEI confirmed NOT supported for on-prem ADO Server. Official GitHub docs only list ADO Services (cloud), Bitbucket Server, GitHub.com, GHES as supported sources. Alternate paths: (1) ADO Server -> ADO Services -> GEI (two hops, extra MS licensing), (2) git mirror from VDI (loses PRs), (3) GitHub Professional Services. Documented for stakeholder communication.
+- **2026-07-09** - ADO Server API version confirmed as 5.1 max (server error on 6.0: "latest version is 5.1"). Extractor patched to default API_VERSION=5.1, configurable via ADO_API_VERSION env var. Commit 8ad6d31.
 - **2026-07-09** - **Major scope shift**: primary migration source is Abank on-prem ADO Server at `http://abdevopsdev/DefaultCollection/...`, NOT the cloud `dev.azure.com/zeb-ai`. Server is fully firewalled, no outbound to github.com. All extraction/migration scripts must run on the Abank VDI (no admin, embeddable Python). Zeb-ai work is retconned as warm-up/tooling rehearsal. Preferred path: GEI-for-ADO-Server (needs firewall exception from server or jump host to `api.github.com`). Fallback: `git mirror` (loses PRs/wiki). See [[project-abdevopsdev-server]].
 
 - **2026-07-08** - Remote configured: `https://github.com/chandrur44/Abank-ADO-Migartion.git`. Branch renamed `master` -> `main`. All existing commits pushed. Standing rule: push after every local commit. `.env` verified gitignored (not pushed).

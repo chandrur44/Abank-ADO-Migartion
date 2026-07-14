@@ -26,6 +26,30 @@ Server = `abdevopsdev` | Collection = `DefaultCollection` | Project = `AB AppDev
 - **API version:** depends on ADO Server version installed - must confirm before writing REST calls (e.g. `api-version=6.0` vs `7.1`).
 - **Auth:** PAT (Code Read + Project Read + Policy Read scopes), same shape as cloud.
 
+## Actual Inventory (extracted 2026-07-09 from `Abank Document/ADO Inventory DefaultCollection.xlsx`)
+
+| Metric | Value |
+|---|---|
+| Projects | 24 |
+| Total repos | 327 (all active, 0 disabled) |
+| Total size | 1,917 MB |
+| Repos with branch policies | 2 (325 unprotected) |
+| Name collisions | 3 (ACH BAI File Generator, BAM, DW_STAGING_LOAD_LEGACY) |
+| Empty repos (no default branch / no commits) | 18 |
+| Repos on `master` | 309 |
+
+**Project breakdown (notable):** AB AppDev (244 repos, active Jun 2026), ScriptRefactoring (56 repos, active Dec 2025), SSIS ETL (5), 20 single-repo projects mostly last active 2020-2024.
+
+**GEI confirmed NOT supported for on-prem ADO Server** (official docs: only ADO Services cloud, Bitbucket Server, GitHub.com, GHES are supported sources). Migration path: `git push --mirror` from VDI as jump host.
+
+## Pending Decisions
+
+- **`master` -> `main` rename**: 309 repos on `master`. Rename during migration or accept `master` as default on GitHub. Needs stakeholder decision before wave 1.
+- **18 empty repos**: no commits ever pushed. Confirm skip or migrate as empty repos with owners.
+- **3 collisions**: ACH BAI File Generator / BAM / DW_STAGING_LOAD_LEGACY. Need owner sign-off on which gets renamed.
+- **325 unprotected repos**: design Ruleset templates to enforce standards on GitHub that were never in ADO. Linked to [[project-branching-cicd]].
+- **PR history**: git mirror loses PRs. Decision: accept loss (freeze ADO 90 days as reference) or engage GitHub PS for custom exporter.
+
 ## Open Decisions
 
 - **GEI-for-ADO-Server vs. `git mirror` fallback**: preferred path is to get Abank infra to allow outbound HTTPS from `abdevopsdev` (or a jump host) to `api.github.com` + `github.com`. That unlocks GEI + full PR/wiki migration. If denied, fallback = `git clone --mirror` from VDI + `git push --mirror` to GitHub, but **loses PR history, PR comments, wiki** unless a custom exporter is built (2-3 weeks work).
