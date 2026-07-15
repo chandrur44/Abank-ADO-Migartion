@@ -79,7 +79,14 @@ BASE = date(2026, 7, 14)
 
 
 def d(offset_days):
-    return (BASE + timedelta(days=offset_days)).strftime("%d %b %Y")
+    """Return the date that is offset_days *working days* after BASE (Mon-Fri only)."""
+    current = BASE
+    remaining = offset_days
+    while remaining > 0:
+        current += timedelta(days=1)
+        if current.weekday() < 5:  # 0=Mon … 4=Fri
+            remaining -= 1
+    return current.strftime("%d %b %Y")
 
 
 wb = Workbook()
@@ -99,8 +106,8 @@ write_sheet(ws_sum, ["Item", "Detail"], [
     ("Total Batches",           "31"),
     ("Total Phases",            "8 (Phase 0 through Phase 7)"),
     ("Planned Start",           d(0)),
-    ("Planned End",             "26 Aug 2026"),
-    ("Total Duration",          "Approx. 7 weeks"),
+    ("Planned End",             "11 Sep 2026"),
+    ("Total Duration",          "Approx. 9 weeks (weekends excluded)"),
 ])
 
 # ── Sheet 2: Roadmap (no Owner column) ────────
