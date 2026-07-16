@@ -103,7 +103,6 @@ wb = Workbook()
 ws_sum = wb.active
 ws_sum.title = "Summary"
 write_sheet(ws_sum, ["Item", "Detail"], [
-    ("Client",                  "Amalgamated Bank (Abank)"),
     ("Source",                  "Azure DevOps Server on-prem (abdevopsdev, API 5.1)"),
     ("Target",                  "GitHub Enterprise Cloud (Standard)"),
     ("Total Repos",             "327"),
@@ -112,10 +111,10 @@ write_sheet(ws_sum, ["Item", "Detail"], [
     ("Migration Approach",      "git push mirror from VDI. GEI not supported for on-prem ADO Server."),
     ("Batch Size",              "10 repos per batch"),
     ("Total Batches",           "31"),
-    ("Total Phases",            "8 (Phase 0 through Phase 7)"),
+    ("Total Phases",            8),
     ("Planned Start",           d(0)),
     ("Planned End",             "31 Aug 2026"),
-    ("Total Duration",          "Approx. 7 weeks (weekends excluded)"),
+    ("Total Duration",          "Approx"),
 ])
 
 # ── Sheet 2: Roadmap (no Owner column) ────────
@@ -124,7 +123,7 @@ roadmap = [
     # Phase 0
     (1,  "Phase 0", "Kickoff and Governance",
      "Align all stakeholders on scope, migration approach, and timeline. Decisions needed: master to main rename, 18 empty repos skip, 3 repo name conflicts, and PR history acceptance.",
-     s(0),   s(0),   "In Progress", "Scope sign-off and decision log"),
+     s(0),   s(0),   "Completed", "Scope sign-off and decision log"),
 
     (2,  "Phase 0", "Inventory Finalization",
      "Confirm the 309 active repos, agree on batch groupings, resolve the 3 collision renames, and confirm disposition of the 18 empty repos.",
